@@ -72,5 +72,19 @@ def setup():
     dispatcher.add_handler(CallbackQueryHandler(movie_result))
     return dispatcher
 
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return 'Hello World!'
+
+
+@app.route('/{}'.format(TOKEN), methods=['GET', 'POST'])
+def respond():
+    update = Update.de_json(request.get_json(force=True), bot)
+    setup().process_update(update)
+    return 'ok'
+
 app = Bot()
 app.run()
